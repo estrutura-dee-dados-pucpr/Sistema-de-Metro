@@ -1,10 +1,7 @@
 package main;
 
-import java.util.ArrayList;
-
-import main.dijkstra.Dijkstra;
-import main.dijkstra.Pilha;
 import main.dijkstra.Rota;
+import main.gui.Gui;
 
 public class Main {
 
@@ -15,15 +12,8 @@ public class Main {
 				, new Rota(12, 8, 11, "amarelo"), new Rota(8, 2, 8, "amarelo"), new Rota(2, 15, 7, "amarelo"), new Rota(15, 16, 7, "amarelo"), new Rota(16, 17, 12, "amarelo"), new Rota(17, 18, 9, "amarelo")
 				, new Rota(10, 13, 11, "roxo"), new Rota(13, 3, 13, "roxo"), new Rota(3, 16, 11, "roxo"), new Rota(16, 19, 13, "roxo"), new Rota(19, 20, 12, "roxo") };
 
-		ArrayList<Rota> res = new ArrayList<Rota>();
-		Dijkstra d = new Dijkstra(rotas);
-		StringBuilder txt = new StringBuilder();
-		int tempoTotal = 0;
-		d.resolve(d.initMatriz(), 0, 19, new Pilha(), res);
-		tempoTotal = Dijkstra.pesoDaRota(res);
-		d.mostraResposta(new ArrayList<Rota>(res), txt, 0 );
-		System.out.println(txt);
-		System.out.println("Tempo total da viagem: " + tempoTotal);
+
+		Gui gui = new Gui(rotas);
 
 	}
 

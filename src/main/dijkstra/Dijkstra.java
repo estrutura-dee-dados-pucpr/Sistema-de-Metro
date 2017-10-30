@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 public class Dijkstra {
 
-	private Rota[] rotas;
+	private Rota[][] rotas;
+	private int inicio, fim;
 
-	public Dijkstra(Rota [] rota) {
-		this.rotas = rota;
+	public Dijkstra(Rota [] rota, int inicio, int fim) {
+		this.rotas = initMatriz(rota);
+		this.inicio = inicio;
+		this.fim = fim;
 	}
 
 	public static int pesoDaRota(ArrayList<Rota> rota) {
@@ -22,26 +25,54 @@ public class Dijkstra {
 
 	}
 
-	public void resolve(Rota[][] r, int inicio, int fim, Pilha tempRes, ArrayList<Rota> currRes) {
+	public String getOutput() {
+		StringBuilder builder = new StringBuilder();
+		int tempoRes;
+		tempoRes = Dijkstra.pesoDaRota(rotaMaisCurta());
+		if(this.rotaMaisCurta().isEmpty())
+			return "f";
+		for (Rota r : this.rotaMaisCurta()) {
+			builder.append(r + "\n");
+		}
 
-		Rota[] lin = r[inicio];
+		builder.append(tempoRes);
+		return builder.toString();
+	}
+
+	public ArrayList<Rota> rotaMaisCurta(){
+		ArrayList<Rota> res = new ArrayList<Rota>();
+		resolve(this.inicio, new Pilha(), res);
+		return res;
+	}
+
+	private void resolve(int inicio, Pilha tempRes, ArrayList<Rota> currRes) {
+
+		//System.out.println(String.format("Saida de: %d ate %d\n", inicio, fim));
+		Rota[] lin = rotas[inicio];
+		if(tempRes== null)
+			tempRes = new Pilha();
+
 		for (int i = 0; i < lin.length; i++) {
 			if(lin[i] != null) {
 				tempRes.push(lin[i]);
-				if(tempRes.getLast().getSaida() == fim) {
-					System.out.println("Achei rota: " + tempRes);
-					System.out.println("Peso resultante: " + pesoDaRota(tempRes.getList()));
+				System.out.println(String.format("Estou em linha %d coluna %d com peso %d\n", inicio, i, lin[i].getPeso()));
+				//System.out.println("Pushed! TEMPRES: " + tempRes);
+				if(tempRes.getLast().getSaida() == fim || inicio == fim) {
+				//	System.out.println("Achei rota: " + tempRes + "RES: " + currRes);
+				//	System.out.println("Peso resultante: " + pesoDaRota(tempRes.getList()));
 					if(pesoDaRota(tempRes.getList()) < pesoDaRota(currRes) || currRes.isEmpty() ) {
 						currRes.clear();
+					//	if(tempRes.getLast().getSaida() != fim)
+					//		tempRes.pop();
 						System.out.println("Achei rota: " + tempRes);
 						for (Rota rota : tempRes.getList()) {
 							currRes.add(rota);
 						}
 					}
 					tempRes.pop();
-					break;
+					//break;
 				}else {
-					resolve(r, i, fim, tempRes, currRes);
+					resolve(i, tempRes, currRes);
 					tempRes.pop();
 				}
 
@@ -51,7 +82,7 @@ public class Dijkstra {
 
 	}
 
-	public Rota[][] initMatriz(){
+	public Rota[][] initMatriz(Rota[] rotas){
 		Rota res[][];
 		int size = 0;
 
@@ -59,25 +90,29 @@ public class Dijkstra {
 			if(r.getChegada() > size)
 				size = r.getChegada();
 
-		res = new Rota[size][size];
+		res = new Rota[size][size ];
 
 		for (Rota r : rotas) {
 			res[r.getSaida() - 1][r.getChegada() - 1] = r;
-			System.out.println(r);
+			///res[ r.getChegada() - 1][r.getSaida() - 1] = r;	///TODO: Perguntar na aula se precisa da matriz espelhada
+			//System.out.println(r);
 		}
 
+
+		System.out.println("\t0\t\t1\t\t2\t\t3\t\t4\t\t5\t\t6\t\t7\t\t8\t\t9\t\t10\t\t11\t\t12\t\t13\t\t14\t\t15\t\t16\t\t17\t\t18\t\t19");
+		System.out.println();
 		for (int i = 0; i < res.length; i++) {
+			System.out.print(i + ": ");
 			for (int j = 0; j < res[i].length; j++) {
 				if(res[i][j] == null)
-					System.out.print("0\t");
+					System.out.print("\t0\t|");
 				else
-					System.out.print(res[i][j].getPeso() + "\t");
+					System.out.print("\t" + res[i][j].getPeso() + "\t|");
 			}
-			System.out.println();
+			System.out.println("\n\t----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 		}
 		return res;
 	}
-
 
 	public void mostraResposta(ArrayList<Rota> rotas, StringBuilder res, int i) {
 

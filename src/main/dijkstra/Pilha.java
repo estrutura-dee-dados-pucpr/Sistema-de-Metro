@@ -10,6 +10,8 @@ public class Pilha {
 	}
 
 	public void pop() {
+		if(ls.size() == 0)
+			return;
 		ls.remove(ls.size() - 1);
 	}
 
