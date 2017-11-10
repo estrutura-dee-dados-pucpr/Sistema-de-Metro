@@ -1,7 +1,5 @@
 package main.dijkstra;
 
-import java.awt.Graphics2D;
-import java.awt.Point;
 import java.util.ArrayList;
 
 public class Dijkstra {
@@ -47,7 +45,6 @@ public class Dijkstra {
 		return res;
 	}
 
-	//TODO: TROCAR CHEGADA DE SAIDA QNDO PRECISAR
 	private void resolve(int inicio, Pilha tempRes, ArrayList<Rota> currRes) {
 
 		//System.out.println(String.format("Saida de: %d ate %d\n", inicio, fim));
@@ -61,11 +58,12 @@ public class Dijkstra {
 			if(lin[i] != null && !lin[i].getFlag()) {
 				tempRes.push(lin[i]);
 				lin[i].setFlag(true);
-				//System.out.println(String.format("Estou em linha %d coluna %d com peso %d\n", inicio, i, lin[i].getPeso()));
+				System.out.println(String.format("Estou em linha %d coluna %d com peso %d\n", inicio, i, lin[i].getPeso()));
 				//System.out.println("Pushed! TEMPRES: " + tempRes);
-				if(tempRes.getLast().getSaida() == fim ) {
+				if(tempRes.getLast().getSaida() - 1 == fim) {
 					System.out.println("Achei rota: " + tempRes + "RES: " + currRes);
 					System.out.println("Peso resultante: " + pesoDaRota(tempRes.getList()));
+					System.out.println("FIM: " + fim + "TESTFIM Rota: " + tempRes.getLast());
 					if(pesoDaRota(tempRes.getList()) < pesoDaRota(currRes) || currRes.isEmpty() ) {
 						currRes.clear();
 						System.out.println("Achei rota: " + tempRes);
@@ -75,6 +73,7 @@ public class Dijkstra {
 					}
 					tempRes.pop();
 					lin[i].setFlag(false);
+					continue;
 				}else {
 					resolve(i, tempRes, currRes);
 					tempRes.pop();
@@ -85,6 +84,7 @@ public class Dijkstra {
 		}
 
 	}
+
 	public Rota[][] initMatriz(Rota[] rotas){
 		Rota res[][];
 		int size = 0;
