@@ -26,7 +26,7 @@ public class Gui extends JFrame implements MouseListener {
 			new Point(225, 62), new Point(334, 69), new Point(467, 139), new Point(599, 133), new Point(511, 31),
 			new Point(663, 17) };
 	private static int bttWdt = 100, bttHgt = 100;
-	boolean mudaSaida = true;
+	boolean mudaSaida = true;A
 	Rota[] rotas;
 	ImagePanel panel;
 	ArrayList<Rota> resp = null;
@@ -168,7 +168,7 @@ public class Gui extends JFrame implements MouseListener {
 
 		public CircleList(Point[] pts) {
 			for (Point r : pts) {
-				// +100 é a margem
+				// +100 Ã© a margem
 				circles.add(new Circle((int) r.getX() + 100, (int) r.getY() + 100, 50));
 			}
 		}
