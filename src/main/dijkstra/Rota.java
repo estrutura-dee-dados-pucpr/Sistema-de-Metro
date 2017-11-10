@@ -1,8 +1,12 @@
 package main.dijkstra;
 
+import javax.swing.JPanel;
+
 public class Rota {
 	private int saida, chegada, peso;
 	private String cor;
+	private boolean flag = false;
+	private boolean highlight = false;
 
 	public Rota(int saida, int chegada, int peso, String cor) {
 		super();
@@ -49,6 +53,24 @@ public class Rota {
 
 	public void setCor(String cor) {
 		this.cor = cor;
+	}
+
+	public void setFlag(boolean flag){
+		this.flag = flag;
+	}
+
+	public boolean getFlag(){
+		return this.flag;
+	}
+
+
+	public boolean isHighlight() {
+		return highlight;
+	}
+
+
+	public void setHighlight(boolean highlight) {
+		this.highlight = highlight;
 	}
 
 

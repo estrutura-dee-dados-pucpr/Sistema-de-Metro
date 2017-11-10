@@ -1,5 +1,7 @@
 package main.dijkstra;
 
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.util.ArrayList;
 
 public class Dijkstra {
@@ -45,6 +47,7 @@ public class Dijkstra {
 		return res;
 	}
 
+	//TODO: TROCAR CHEGADA DE SAIDA QNDO PRECISAR
 	private void resolve(int inicio, Pilha tempRes, ArrayList<Rota> currRes) {
 
 		//System.out.println(String.format("Saida de: %d ate %d\n", inicio, fim));
@@ -53,35 +56,35 @@ public class Dijkstra {
 			tempRes = new Pilha();
 
 		for (int i = 0; i < lin.length; i++) {
-			if(lin[i] != null) {
+			//if(lin[i] != null)
+			//	System.out.println("FLAG: " + lin[i].getFlag());
+			if(lin[i] != null && !lin[i].getFlag()) {
 				tempRes.push(lin[i]);
-				System.out.println(String.format("Estou em linha %d coluna %d com peso %d\n", inicio, i, lin[i].getPeso()));
+				lin[i].setFlag(true);
+				//System.out.println(String.format("Estou em linha %d coluna %d com peso %d\n", inicio, i, lin[i].getPeso()));
 				//System.out.println("Pushed! TEMPRES: " + tempRes);
-				if(tempRes.getLast().getSaida() == fim || inicio == fim) {
-				//	System.out.println("Achei rota: " + tempRes + "RES: " + currRes);
-				//	System.out.println("Peso resultante: " + pesoDaRota(tempRes.getList()));
+				if(tempRes.getLast().getSaida() == fim ) {
+					System.out.println("Achei rota: " + tempRes + "RES: " + currRes);
+					System.out.println("Peso resultante: " + pesoDaRota(tempRes.getList()));
 					if(pesoDaRota(tempRes.getList()) < pesoDaRota(currRes) || currRes.isEmpty() ) {
 						currRes.clear();
-					//	if(tempRes.getLast().getSaida() != fim)
-					//		tempRes.pop();
 						System.out.println("Achei rota: " + tempRes);
 						for (Rota rota : tempRes.getList()) {
 							currRes.add(rota);
 						}
 					}
 					tempRes.pop();
-					//break;
+					lin[i].setFlag(false);
 				}else {
 					resolve(i, tempRes, currRes);
 					tempRes.pop();
+					lin[i].setFlag(false);
 				}
-
 
 			}
 		}
 
 	}
-
 	public Rota[][] initMatriz(Rota[] rotas){
 		Rota res[][];
 		int size = 0;
@@ -94,12 +97,14 @@ public class Dijkstra {
 
 		for (Rota r : rotas) {
 			res[r.getSaida() - 1][r.getChegada() - 1] = r;
-			///res[ r.getChegada() - 1][r.getSaida() - 1] = r;	///TODO: Perguntar na aula se precisa da matriz espelhada
+			res[ r.getChegada() - 1][r.getSaida() - 1] = r;	///TODO: Perguntar na aula se precisa da matriz espelhada
 			//System.out.println(r);
 		}
 
 
-		System.out.println("\t0\t\t1\t\t2\t\t3\t\t4\t\t5\t\t6\t\t7\t\t8\t\t9\t\t10\t\t11\t\t12\t\t13\t\t14\t\t15\t\t16\t\t17\t\t18\t\t19");
+		///TODO: Checar se a formatacao fica boa
+		/**for(int i = 0; i < 21; i++)
+			System.out.print(i + "\t");
 		System.out.println();
 		for (int i = 0; i < res.length; i++) {
 			System.out.print(i + ": ");
@@ -110,7 +115,7 @@ public class Dijkstra {
 					System.out.print("\t" + res[i][j].getPeso() + "\t|");
 			}
 			System.out.println("\n\t----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-		}
+		}*/
 		return res;
 	}
 
@@ -132,6 +137,7 @@ public class Dijkstra {
 				}
 
 	}
+
 
 
 }
