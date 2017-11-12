@@ -26,7 +26,7 @@ public class Gui extends JFrame implements MouseListener {
 			new Point(225, 62), new Point(334, 69), new Point(467, 139), new Point(599, 133), new Point(511, 31),
 			new Point(663, 17) };
 	private static int bttWdt = 100, bttHgt = 100;
-	boolean mudaSaida = true;A
+	boolean mudaSaida = true;
 	Rota[] rotas;
 	ImagePanel panel;
 	ArrayList<Rota> resp = null;
@@ -71,8 +71,11 @@ public class Gui extends JFrame implements MouseListener {
 
 	private void calculaDij() {
 		Dijkstra d = new Dijkstra(rotas, this.saida , this.chegada );
+		if(d.getOutput().equals("f")) {
+			d = new Dijkstra(rotas, this.chegada , this.saida);
+			System.out.println("Girei rota!");
+		}
 		ArrayList<Rota> resp = d.rotaMaisCurta();
-
 		this.resp = resp;
 		System.out.println("RESP saindo de  " + this.saida + " chegando em " + this.chegada + " : \n" + d.getOutput());
 		this.repaint();
@@ -160,7 +163,6 @@ public class Gui extends JFrame implements MouseListener {
 			this.destaques = destaques;
 		}
 
-		///TODO: TROCAR ESSES 2 CONTRUTORES
 		public CircleList(Point[] pts,  ArrayList<Rota> rotas) {
 			this(pts);
 			this.rotas = rotas;
